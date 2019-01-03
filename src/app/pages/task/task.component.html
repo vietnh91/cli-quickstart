@@ -7,7 +7,10 @@
 				</i>
 			</th>
 			<th>Customer Name</th>
+			<th>Address</th>
 			<th>Product</th>
+			<th>Quantity-Unit</th>
+			<th>Adjusted</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -19,11 +22,16 @@
 						[id]="element.position">
 					</tx-inputable>
 				</td>
+				<td [attr.rowspan]="element.orderItems.length">{{element.customer.address}}</td>
 				<td>{{element.orderItems[0].product.productName}}</td>
+				<td>{{element.orderItems[0].quantity}} {{element.orderItems[0].product.unit.catalogName}}</td>
+				<td>{{element.orderItems[0].adjusted}}</td>
 			</tr>
 			<ng-container *ngFor="let orderItem of element.orderItems; let i = index">
 				<tr *ngIf="i > 0">
 					<td>{{orderItem.product.productName}}</td>
+					<td>{{orderItem.quantity}} {{orderItem.product.unit.catalogName}}</td>
+					<td>{{orderItem.adjusted}}</td>
 				</tr>
 			</ng-container>
 		</ng-container>
