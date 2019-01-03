@@ -13,17 +13,17 @@
 	<tbody>
 		<ng-container *ngFor="let element of dataSource">
 			<tr>
-				<td [attr.rowspan]="element.products.length">{{element.position}}</td>
-				<td [attr.rowspan]="element.products.length" width="20%">
-					<tx-inputable [label]="element.name"
+				<td [attr.rowspan]="element.orderItems.length">{{element.position}}</td>
+				<td [attr.rowspan]="element.orderItems.length" width="20%">
+					<tx-inputable [label]="element.customer.customerName"
 						[id]="element.position">
 					</tx-inputable>
 				</td>
-				<td>{{element.products[0].productName}}</td>
+				<td>{{element.orderItems[0].product.productName}}</td>
 			</tr>
-			<ng-container *ngFor="let product of element.products; let i = index">
+			<ng-container *ngFor="let orderItem of element.orderItems; let i = index">
 				<tr *ngIf="i > 0">
-					<td>{{product.productName}}</td>
+					<td>{{orderItem.product.productName}}</td>
 				</tr>
 			</ng-container>
 		</ng-container>

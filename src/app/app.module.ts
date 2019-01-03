@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
+import { OrderService } from './service/order.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
 	declarations: [
@@ -21,8 +23,12 @@ import {MatIconModule} from '@angular/material/icon';
 		MatToolbarModule,
 		MatMenuModule,
 		MatIconModule,
+		HttpClientModule,
 	],
-	providers: [],
+	providers: [
+		HttpClient,
+		OrderService,
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
