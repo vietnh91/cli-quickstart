@@ -26,7 +26,7 @@ export class TXInputableComponent implements OnInit {
 		this.value = this.label
 		console.log(this.txinput)
 		document.getElementById("id_txinput_" + this.id).style.display = "block";
-		document.getElementById("id_txinput_" + this.id).focus();
+		document.getElementById("id_txinput_" + this.id).focus()
 	}
 
 	onFocusOut(){
