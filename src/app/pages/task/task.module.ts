@@ -6,15 +6,18 @@ import { TaskComponent } from './task.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
-import {MatInputModule, MatIconModule} from '@angular/material';
+import {MatInputModule, MatIconModule, MatDialogModule,
+	MatButtonModule, MatListModule, MatAutocompleteModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { Routes, RouterModule } from '@angular/router';
-import { TXInputableComponent } from 'src/app/component/tx-inputable/tx-inputable.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TaskAddComponent } from './task-add/task-add.component';
+import { ClickOutsideDirective } from 'src/app/directive/clickoutside.directive';
+import { ProductInputComponent } from 'src/app/component/product-input/product-input.component';
 
 const routes: Routes = [
 	{
@@ -26,11 +29,14 @@ const routes: Routes = [
 @NgModule({
 	declarations: [
 		TaskComponent,
-		TXInputableComponent,
+		TaskAddComponent,
+		ClickOutsideDirective,
+		ProductInputComponent,
 	],
 	imports: [
 		RouterModule.forChild(routes),
 		CommonModule,
+		ReactiveFormsModule,
 		TaskRoutingModule,
 		MatDatepickerModule,
 		MatFormFieldModule,
@@ -41,10 +47,16 @@ const routes: Routes = [
 		FormsModule,
 		MatIconModule,
 		MatPaginatorModule,
+		MatDialogModule,
+		MatButtonModule,
+		MatListModule,
+		MatAutocompleteModule,
+	],
+	entryComponents: [
+		TaskAddComponent,
 	],
 	exports: [
 		RouterModule,
-		TXInputableComponent,
 	],
 })
 export class TaskModule { }

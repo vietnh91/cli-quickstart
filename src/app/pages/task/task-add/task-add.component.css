@@ -1,0 +1,38 @@
+.customer-selector{
+  position: relative;
+}
+.customer-selector ul{
+  position: absolute;
+  background: white;
+  top: 50px;
+  z-index: 99;
+  margin: 0;
+  list-style: none;
+  padding: 0;
+  box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+}
+.customer-selector li {
+  margin: 0;
+  padding: 10px;
+  color: #8c8080;
+  font-size: 10pt;
+}
+.customer-selector li:hover{
+  background: #f7f5f5;
+}
+mat-form-field{
+  width: 100%;
+}
+table {
+  width: 100%;
+}
+
+tr.mat-footer-row {
+  font-weight: bold;
+}
+.text-number{
+  text-align: right
+}
+mat-form-field.mat-form-field{
+  font-size: 10pt;
+}

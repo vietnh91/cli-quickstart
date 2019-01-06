@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from 'src/app/service/order.service';
+import { MatDialog } from '@angular/material';
+import { TaskAddComponent } from './task-add/task-add.component';
 
 @Component({
 	selector: 'app-task',
@@ -9,6 +11,7 @@ import { OrderService } from 'src/app/service/order.service';
 export class TaskComponent implements OnInit {
 
 	constructor(
+		public dialog: MatDialog,
 		private orderService: OrderService,
 	) { }
 
@@ -20,32 +23,45 @@ export class TaskComponent implements OnInit {
 
 	length = 100;
 	pageSize = 10;
+	pageEvent: any
 	pageSizeOptions: number[] = [5, 10, 25, 100];
 
-	add(){
-		let addItem = [
-			{
-				position: 0,
-				name: 'untitled',
-				products:
-				[
-					{
-						productId: 1,
-						productName: 'bánh chuối'
-					},
-				]
-			},
-		]
-		
-		this.dataSource = addItem.concat(this.dataSource)
+	editing: boolean = false
+
+	openAdd(){
+		const dialogRef = this.dialog.open(TaskAddComponent, {
+			height: '600px',
+			width: '800px',
+			data: {
+				//name: this.name,
+				//animal: this.animal
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe(result => {
+			console.log('The dialog was closed' + result);
+			//this.animal = result;
+		});
 	}
 
 	filter(){
 		this.orderService.filter({}).subscribe( (res) => {
 			console.log(res)
 			this.dataSource = res.content
+			this.dataSource.forEach(order=>{
+				order.total = 0
+				order.orderItems.forEach(item => {
+					order.total += item.product.price * item.quantity - item.adjusted
+				});
+			})
 		}, (error) => {
 			console.log(error);
 		})
 	}
+
+	edit(item){
+		console.log(item)
+	}
+
+
 }

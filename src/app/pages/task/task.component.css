@@ -5,19 +5,26 @@ table {
   border-collapse: separate;
 }
 tr{
-  height: 48px;
+  height: 40px;
 }
 td, th{
   border-bottom-width: 1px;
   border-bottom-style: solid;
+  border-left-width: 1px;
+  border-left-style: solid;
   padding-left: 8px;
+  padding-right: 8px;
+  font-size: 9pt;
 }
 th{
   text-align: left;
   color: rgba(0,0,0,.54);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 .row{
   padding: 8px;
+}
+.text-number{
+  text-align: right
 }
