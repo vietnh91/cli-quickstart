@@ -31,7 +31,7 @@ export class TaskComponent implements OnInit {
 	openAdd(){
 		const dialogRef = this.dialog.open(TaskAddComponent, {
 			height: '600px',
-			width: '800px',
+			width: '1000px',
 			data: {
 				//name: this.name,
 				//animal: this.animal

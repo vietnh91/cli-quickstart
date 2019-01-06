@@ -13,7 +13,22 @@ export class TaskAddComponent implements OnInit {
 	focus = false
 	selected: any = {}
 
-	products = [];
+	displayedColumns: string[] = ['productName', 'productCode', 'quantity', 'price', 'itemTotal', 'adjusted', 'netTotal', 'action'];
+	footerColumns: string[] = ['productName', 'productCode', 'quantity', 'price', 'itemTotal', 'adjusted', 'netTotal', 'action'];
+
+	orderItems: any = [];
+
+	index = 0
+	editing: any = {
+		quantity: {
+			1: false
+		},
+		adjusted: {
+			1: false
+		},
+	} 
+
+	products = []
 
 	constructor(
 		public dialogRef: MatDialogRef<TaskAddComponent>,
@@ -71,37 +86,35 @@ export class TaskAddComponent implements OnInit {
 		console.log(this.order)
 	}
 
-	displayedColumns: string[] = ['productName', 'quantity', 'price', 'itemTotal', 'action'];
-
-	orderItems: any = [];
-  
-	/** Gets the total cost of all transactions. */
-	getTotalCost() {
-	  return this.orderItems.map(t => t.price).reduce((acc, value) => acc + value, 0);
-	}
-
-	index = 0
-
 	addOrderItem(){
 		this.index++
 		this.orderItems = this.orderItems.concat([
 			{
 				index: this.index,
-				quantity: 1
+				quantity: 1,
+				adjusted: 0,
+				invalid: false,
 			}
 		])
+		this.editing.quantity[this.index] = false
+		this.editing.adjusted[this.index] = false
 		console.log(this.orderItems)
 	}
 
-	changeProduct(orderItem, productId){
-		console.log(orderItem)
-		console.log(productId)
-		this.products.forEach(element=>{
-			if(element.productId == productId){
-				orderItem.product = element
+	removeOrderItem(orderItem){
+		let i = this.orderItems.indexOf(orderItem)
+		this.orderItems.splice(i, 1)
+		this.orderItems = this.orderItems.concat([])
+	}
+
+	getNetTotal() {
+		let net = 0;
+		this.orderItems.forEach(element => {
+			if(element.product && element.product.price){
+				net += element.product.price * element.quantity - element.adjusted
 			}
-		})
-		console.log(orderItem)
+		});
+		return net;
 	}
 
 }

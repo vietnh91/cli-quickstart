@@ -18,57 +18,106 @@
 	<table mat-table [dataSource]="orderItems" class="mat-elevation-z8" *ngIf="products.length > 0">
 		<!-- Item Column -->
 		<ng-container matColumnDef="productName">
-			<th mat-header-cell *matHeaderCellDef width="20%"> Product </th>
-			<td mat-cell *matCellDef="let orderItem" width="20%">
+			<th mat-header-cell *matHeaderCellDef> Product </th>
+			<td mat-cell *matCellDef="let orderItem">
 				<product-input [options]="products" [orderItem]="orderItem" [default]="orderItem.product"></product-input>
 			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+
+		<!-- Item Column -->
+		<ng-container matColumnDef="productCode">
+			<th mat-header-cell *matHeaderCellDef width="85px" class="pl-8"> Code </th>
+			<td mat-cell *matCellDef="let orderItem" width="85px" class="pl-8">
+				<span *ngIf="!invalid && orderItem.product">
+					{{orderItem.product.productCode}}
+				</span>
+			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
 		</ng-container>
 		
 		<!-- quantity Column -->
 		<ng-container matColumnDef="quantity">
-			<th mat-header-cell *matHeaderCellDef class="text-number"> Quantity </th>
-			<td mat-cell *matCellDef="let orderItem" class="text-number">
-				<span *ngIf="!invalid && orderItem.product && orderItem.product.unit">
+			<th mat-header-cell *matHeaderCellDef  width="85px" class="text-number"> Quantity </th>
+			<td mat-cell *matCellDef="let orderItem"  width="85px" class="text-number" (click)="editing.quantity[orderItem.index] = true">
+				<span *ngIf="!invalid && orderItem.product && orderItem.product.unit && !editing.quantity[orderItem.index]">
 					{{orderItem.quantity}} {{orderItem.product.unit.catalogName}}
 				</span>
+				<mat-form-field *ngIf="editing.quantity[orderItem.index]" class="change-adjusted">
+					<input matInput [id]="'change-quantity-' + orderItem.index" [(ngModel)]="orderItem.quantity"
+						(focusout)="editing.quantity[orderItem.index] = false" autocomplete="off">
+				</mat-form-field>
 			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
 		</ng-container>
 
 		<!-- price Column -->
 		<ng-container matColumnDef="price">
-			<th mat-header-cell *matHeaderCellDef class="text-number"> Price </th>
-			<td mat-cell *matCellDef="let orderItem" class="text-number">
+			<th mat-header-cell *matHeaderCellDef width="85px"class="text-number"> Price </th>
+			<td mat-cell *matCellDef="let orderItem" width="85px" class="text-number">
 				<span *ngIf="!invalid && orderItem.product && orderItem.product.price">
 					{{orderItem.product.price}}
 				</span>
 			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
 		</ng-container>
 
 		<!-- price Column -->
 		<ng-container matColumnDef="itemTotal">
-			<th mat-header-cell *matHeaderCellDef class="text-number"> Item Total </th>
-			<td mat-cell *matCellDef="let orderItem" class="text-number">
+			<th mat-header-cell *matHeaderCellDef width="85px" class="text-number"> Item Total </th>
+			<td mat-cell *matCellDef="let orderItem"  width="85px" class="text-number">
 				<span *ngIf="!invalid && orderItem.product && orderItem.product.price">
 					{{orderItem.product.price * orderItem.quantity}}
 				</span>
 			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
+		</ng-container>
+
+		<!-- adjusted Column -->
+		<ng-container matColumnDef="adjusted">
+			<th mat-header-cell *matHeaderCellDef width="85px" class="text-number"> Adjusted </th>
+			<td mat-cell *matCellDef="let orderItem" width="85px"class="text-number" (click)="editing.adjusted[orderItem.index] = true">
+				<span *ngIf="!invalid && orderItem.product && !editing.adjusted[orderItem.index]">
+					{{orderItem.adjusted}}
+				</span>
+				<mat-form-field *ngIf="editing.adjusted[orderItem.index]" class="change-adjusted">
+					<input matInput [id]="'change-adjusted-' + orderItem.index" [(ngModel)]="orderItem.adjusted"
+						(focusout)="editing.adjusted[orderItem.index] = false" autocomplete="off" autofocus >
+				</mat-form-field>
+			</td>
+			<td mat-footer-cell *matFooterCellDef class="text-number">Total </td>
+		</ng-container>
+
+		<!-- net Column -->
+		<ng-container matColumnDef="netTotal">
+			<th mat-header-cell *matHeaderCellDef width="85px" class="text-number"> Net Item Total </th>
+			<td mat-cell *matCellDef="let orderItem" width="85px" class="text-number">
+				<span *ngIf="!invalid && orderItem.product">
+					{{orderItem.product.price * orderItem.quantity - orderItem.adjusted}}
+				</span>
+			</td>
+			<td mat-footer-cell *matFooterCellDef class="text-number"> {{getNetTotal()}} </td>
 		</ng-container>
 
 		<!-- Action Column -->
 		<ng-container matColumnDef="action">
-			<th mat-header-cell *matHeaderCellDef> Action </th>
-			<td mat-cell *matCellDef="let orderItem">
-				<button mat-icon-button color="warn" (click)="removeOrderItem()">
-					<mat-icon aria-label="add">clear</mat-icon>
+			<th mat-header-cell *matHeaderCellDef width="150px" class="pl-8">  </th>
+			<td mat-cell *matCellDef="let orderItem; let last = last;" width="150px" class="pl-8">
+				<button mat-icon-button color="warn" (click)="removeOrderItem(orderItem)" *ngIf="orderItems.length > 1">
+					<mat-icon aria-label="clear">clear</mat-icon>
 				</button>
-				<button mat-icon-button color="primary" (click)="addOrderItem()">
+				<button mat-icon-button color="primary" (click)="addOrderItem()" *ngIf="last == true">
 					<mat-icon aria-label="add">add</mat-icon>
 				</button>
 			</td>
+			<td mat-footer-cell *matFooterCellDef></td>
 		</ng-container>
 		
 		<tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+		<tr mat-footer-row *matFooterRowDef="footerColumns"></tr>
 	</table>
-	<button mat-button (click)="onNoClick()">No Thanks</button>
-	<button mat-button [mat-dialog-close]="order" cdkFocusInitial>Ok</button>
+	<div class="add-task-footer">
+		<button mat-flat-button (click)="onNoClick()">Close</button>
+		<button mat-flat-button color="primary" [mat-dialog-close]="order" cdkFocusInitial>Save</button>
+	</div>
