@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from 'src/app/service/order.service';
+import { TxcrmService } from 'src/app/service/txcrm.service';
 import { MatDialog } from '@angular/material';
 import { TaskAddComponent } from './task-add/task-add.component';
 
@@ -12,7 +12,7 @@ export class TaskComponent implements OnInit {
 
 	constructor(
 		public dialog: MatDialog,
-		private orderService: OrderService,
+		private service: TxcrmService,
 	) { }
 
 	ngOnInit() {
@@ -45,7 +45,7 @@ export class TaskComponent implements OnInit {
 	}
 
 	filter(){
-		this.orderService.filter({}).subscribe( (res) => {
+		this.service.filterOrder({}).subscribe( (res) => {
 			console.log(res)
 			this.dataSource = res.content
 			this.dataSource.forEach(order=>{

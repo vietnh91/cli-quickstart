@@ -55,7 +55,7 @@ export class ProductInputComponent implements OnInit {
 
 	focusout(){
 		this.focus = false
-		if(this.orderItem.customerId 
+		if(this.orderItem.product 
 			&& this.orderItem.product.productId == this.selected.productId 
 			&& this.orderItem.product.productName != this.selected.productName)
 			{

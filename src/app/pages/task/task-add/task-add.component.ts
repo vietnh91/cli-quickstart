@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { OrderService } from 'src/app/service/order.service';
+import { TxcrmService } from 'src/app/service/txcrm.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
@@ -16,7 +16,10 @@ export class TaskAddComponent implements OnInit {
 	displayedColumns: string[] = ['productName', 'productCode', 'quantity', 'price', 'itemTotal', 'adjusted', 'netTotal', 'action'];
 	footerColumns: string[] = ['productName', 'productCode', 'quantity', 'price', 'itemTotal', 'adjusted', 'netTotal', 'action'];
 
-	orderItems: any = [];
+	order: any = {
+		customer: {},
+		orderItems: [],
+	}
 
 	index = 0
 	editing: any = {
@@ -32,8 +35,8 @@ export class TaskAddComponent implements OnInit {
 
 	constructor(
 		public dialogRef: MatDialogRef<TaskAddComponent>,
-		@Inject(MAT_DIALOG_DATA) public order: any,
-		private orderService: OrderService,
+		@Inject(MAT_DIALOG_DATA) public data: any,
+		private service: TxcrmService,
 	) { }
 
 	onNoClick(): void {
@@ -41,7 +44,7 @@ export class TaskAddComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.orderService.getProduct({}).subscribe((res)=>{
+		this.service.getProduct({}).subscribe((res)=>{
 			console.log(res)
 			this.products = res
 			this.addOrderItem()
@@ -50,45 +53,9 @@ export class TaskAddComponent implements OnInit {
 		})
 	}
 
-	filter(){
-		this.focus = true
-		this.options = [
-			{
-				customerId: 1,
-				customerName: 'Vacation Itinerary',
-				updated: new Date('2/20/16'),
-			},
-			{
-				customerId: 1,
-				customerName: 'Kitchen Remodel',
-			  	updated: new Date('1/18/16'),
-			}
-		];
-	}
-
-	select(option){
-		this.focus = false
-		console.log(option)
-		this.selected = option
-		this.order.customerId = option.customerId
-		this.order.customerName = option.customerName
-	}
-
-	focusout(){
-		this.focus = false
-		if(this.order.customerId 
-			&& this.order.customerId == this.selected.customerId 
-			&& this.order.customerName != this.selected.customerName)
-			{
-				this.selected = {}
-				this.order.customerId = null
-		}
-		console.log(this.order)
-	}
-
 	addOrderItem(){
 		this.index++
-		this.orderItems = this.orderItems.concat([
+		this.order.orderItems = this.order.orderItems.concat([
 			{
 				index: this.index,
 				quantity: 1,
@@ -98,23 +65,32 @@ export class TaskAddComponent implements OnInit {
 		])
 		this.editing.quantity[this.index] = false
 		this.editing.adjusted[this.index] = false
-		console.log(this.orderItems)
+		console.log(this.order.orderItems)
 	}
 
 	removeOrderItem(orderItem){
-		let i = this.orderItems.indexOf(orderItem)
-		this.orderItems.splice(i, 1)
-		this.orderItems = this.orderItems.concat([])
+		let i = this.order.orderItems.indexOf(orderItem)
+		this.order.orderItems.splice(i, 1)
+		this.order.orderItems = this.order.orderItems.concat([])
 	}
 
 	getNetTotal() {
 		let net = 0;
-		this.orderItems.forEach(element => {
+		this.order.orderItems.forEach(element => {
 			if(element.product && element.product.price){
 				net += element.product.price * element.quantity - element.adjusted
 			}
 		});
 		return net;
+	}
+
+	save(){
+		console.log(this.order)
+		this.service.createOrder(this.order).subscribe((res)=>{
+			console.log(res)
+		}, (error) => {
+			console.log(error)
+		})
 	}
 
 }

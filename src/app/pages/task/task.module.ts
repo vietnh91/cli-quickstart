@@ -18,6 +18,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TaskAddComponent } from './task-add/task-add.component';
 import { ClickOutsideDirective } from 'src/app/directive/clickoutside.directive';
 import { ProductInputComponent } from 'src/app/component/product-input/product-input.component';
+import { CustomerInputComponent } from 'src/app/component/customer-input/customer-input.component';
+import { TxcrmService } from 'src/app/service/txcrm.service';
 
 const routes: Routes = [
 	{
@@ -32,6 +34,7 @@ const routes: Routes = [
 		TaskAddComponent,
 		ClickOutsideDirective,
 		ProductInputComponent,
+		CustomerInputComponent,
 	],
 	imports: [
 		RouterModule.forChild(routes),
@@ -54,6 +57,9 @@ const routes: Routes = [
 	],
 	entryComponents: [
 		TaskAddComponent,
+	],
+	providers: [
+		TxcrmService,
 	],
 	exports: [
 		RouterModule,
