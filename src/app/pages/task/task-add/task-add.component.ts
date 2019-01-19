@@ -18,6 +18,9 @@ export class TaskAddComponent implements OnInit {
 
 	order: any = {
 		customer: {},
+		ship: {},
+		newShip: {},
+		ships: [],
 		orderItems: [],
 		invoiceStatusChecked: true,
 	}
@@ -88,10 +91,22 @@ export class TaskAddComponent implements OnInit {
 		let net = 0;
 		this.order.orderItems.forEach(element => {
 			if(element.product && element.product.price){
-				net += element.product.price * element.quantity - element.adjusted
+				if(element.adjusted > 1 || element.adjusted < 0){
+					net += element.product.price * element.quantity - element.adjusted
+				}else{
+					net += element.product.price * element.quantity * (1 - element.adjusted)
+				}
 			}
 		});
 		return net;
+	}
+
+	shipSelected(shipItem){
+		if(this.order.ship.addressId == shipItem.addressId){
+			this.order.ship = {}
+		}else{
+			this.order.ship = shipItem
+		}
 	}
 
 	save(){
@@ -101,6 +116,25 @@ export class TaskAddComponent implements OnInit {
 		}else{
 			this.order.invoiceStatus = 0
 		}
+		if(!this.order.ship.addressId){
+			this.order.ship = this.order.newShip
+		}
+		
+		this.order.orderItems.forEach(element => {
+			if(element.product && element.product.price){
+				if(element.adjusted < 1 && element.adjusted > 0){
+
+					if(this.order.note){
+						this.order.note = this.order.note + ', adjusted ' + (element.adjusted * 100) + '%'
+					}else{
+						this.order.note = 'Adjusted ' + (element.adjusted * 100) + '%'
+					}
+
+					element.adjusted = element.adjusted * element.product.price * element.quantity
+					
+				}
+			}
+		});
 
 		this.service.saveOrder(this.order).subscribe((res)=>{
 			console.log(res)

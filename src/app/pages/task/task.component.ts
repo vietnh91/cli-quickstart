@@ -52,19 +52,31 @@ export class TaskComponent implements OnInit {
 	}
 
 	openUpdate(order){
-		const dialogRef = this.dialog.open(TaskAddComponent, {
-			height: '600px',
-			width: '1000px',
-			data: {
-				order: this.jsonCopy(order)
-			}
-		});
-	
-		dialogRef.afterClosed().subscribe(result => {
-			if(result == 'refesh'){
-				this.filter()
-			}
-		});
+
+		this.service.filterAddress({
+			customerId: order.customer.customerId,
+		}).subscribe(res=>{
+			order.ships = res
+			order.newShip = {}
+			
+			const dialogRef = this.dialog.open(TaskAddComponent, {
+				height: '600px',
+				width: '1000px',
+				data: {
+					order: this.jsonCopy(order)
+				}
+			});
+		
+			dialogRef.afterClosed().subscribe(result => {
+				if(result == 'refesh'){
+					this.filter()
+				}
+			});
+			
+		}, err=>{
+			console.log(err)
+		})
+
 	}
 
 	filter(){

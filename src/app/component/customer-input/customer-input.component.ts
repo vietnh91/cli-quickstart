@@ -60,6 +60,14 @@ export class CustomerInputComponent implements OnInit {
 		this.focus = false
 		this.selected = option
 		this.order.customer = Object.assign({}, this.selected)
+
+		this.service.filterAddress({
+			customerId: this.selected.customerId,
+		}).subscribe(res=>{
+			this.order.ships = res
+		}, err=>{
+			console.log(err)
+		})
 	}
 
 	focusout(){

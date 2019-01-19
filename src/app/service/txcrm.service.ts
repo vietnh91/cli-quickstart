@@ -45,7 +45,11 @@ export class TxcrmService {
 		var url: string = this.url + '/customer/filter';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
-	
+
+	filterAddress(condition: Object) : Observable<any>{
+		var url: string = this.url + '/address/filter';
+		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
+	}
 	
 
 }

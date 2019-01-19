@@ -55,3 +55,16 @@ mat-form-field.mat-form-field{
 .mt-2{
   margin-top: 20px;
 }
+.mat-card{
+	width: 28%;
+    margin-bottom: 12px;
+    margin-right: 14px;
+	float: left;
+	cursor: pointer;
+}
+.ship-selected{
+    border: 1px solid cornflowerblue;
+}
+.ship-ico{    
+	font-size: 14px;
+}

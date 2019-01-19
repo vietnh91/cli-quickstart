@@ -28,7 +28,7 @@
 				<td width="160px" [attr.rowspan]="element.orderItems.length">
 					<a class="link" (click)="openUpdate(element)">{{element.customer.customerName}}</a>
 				</td>
-				<td width="320px" [attr.rowspan]="element.orderItems.length">{{element.shippingAddress}}</td>
+				<td width="320px" [attr.rowspan]="element.orderItems.length">{{element.ship ? element.ship.location : ''}}</td>
 				<td width="160px">{{element.orderItems[0].product.productName}}</td>
 				<td width="50px">{{element.orderItems[0].quantity}} {{element.orderItems[0].product.unit.catalogName}}</td>
 				<td width="50px" class="text-number">{{element.orderItems[0].product.price}}</td>
