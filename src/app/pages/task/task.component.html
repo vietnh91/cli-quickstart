@@ -4,39 +4,39 @@
 <table class="mat-elevation-z8">
 	<thead>
 		<tr>
-			<th>No.
+			<th width="40px">No.
 			</th>
-			<th>Date</th>
-			<th width="10%">Customer Name</th>
-			<th width="20%">Address</th>
-			<th>Product</th>
+			<th width="80px">Date</th>
+			<th width="160px">Customer Name</th>
+			<th width="320px">Shipping Address</th>
+			<th width="160px">Product</th>
 			<th width="50px">Quantity</th>
 			<th width="50px" class="text-number">Price</th>
 			<th width="50px" class="text-number">Item Total</th>
 			<th width="50px" class="text-number">Adjusted</th>
 			<th width="50px" class="text-number">Net Item Total</th>
 			<th width="50px" class="text-number">Net Total</th>
-			<th>Invoice Status</th>
+			<th width="50px">Invoice Status</th>
 			<th>Note</th>
 		</tr>
 	</thead>
 	<tbody>
 		<ng-container *ngFor="let element of dataSource">
 			<tr>
-				<td [attr.rowspan]="element.orderItems.length">{{element.position}}</td>
-				<td [attr.rowspan]="element.orderItems.length">{{element.orderDate | date: 'yyyy-MM-dd'}}</td>
-				<td [attr.rowspan]="element.orderItems.length" width="10%">
-					<a class="link" (click)="edit()">{{element.customer.customerName}}</a>
+				<td width="40px" [attr.rowspan]="element.orderItems.length">{{element.position}}</td>
+				<td width="80px" [attr.rowspan]="element.orderItems.length">{{element.orderDate | date: 'yyyy-MM-dd'}}</td>
+				<td width="160px" [attr.rowspan]="element.orderItems.length">
+					<a class="link" (click)="openUpdate(element)">{{element.customer.customerName}}</a>
 				</td>
-				<td [attr.rowspan]="element.orderItems.length" width="20%">{{element.customer.address}}</td>
-				<td>{{element.orderItems[0].product.productName}}</td>
+				<td width="320px" [attr.rowspan]="element.orderItems.length">{{element.shippingAddress}}</td>
+				<td width="160px">{{element.orderItems[0].product.productName}}</td>
 				<td width="50px">{{element.orderItems[0].quantity}} {{element.orderItems[0].product.unit.catalogName}}</td>
 				<td width="50px" class="text-number">{{element.orderItems[0].product.price}}</td>
 				<td width="50px" class="text-number">{{element.orderItems[0].product.price * element.orderItems[0].quantity}}</td>
 				<td width="50px" class="text-number">{{element.orderItems[0].adjusted}}</td>
 				<td width="50px" class="text-number">{{element.orderItems[0].product.price * element.orderItems[0].quantity - element.orderItems[0].adjusted}}</td>
 				<td width="50px" [attr.rowspan]="element.orderItems.length" class="text-number">{{element.total}}</td>
-				<td [attr.rowspan]="element.orderItems.length">{{element.invoiceStatus > 0 ? 'Done': ''}}</td>
+				<td width="50px" [attr.rowspan]="element.orderItems.length">{{element.invoiceStatus > 0 ? 'Done': ''}}</td>
 				<td [attr.rowspan]="element.orderItems.length">{{element.note}}</td>
 			</tr>
 			<ng-container *ngFor="let orderItem of element.orderItems; let i = index">
@@ -52,8 +52,8 @@
 		</ng-container>
 	</tbody>
 </table>
-<mat-paginator [length]="length"
-              [pageSize]="pageSize"
-              [pageSizeOptions]="pageSizeOptions"
-              (page)="pageEvent = $event">
+<mat-paginator [length]="paging.length"
+              [pageSize]="paging.size"
+              [pageSizeOptions]="paging.options"
+              (page)="pageEvent($event)">
 </mat-paginator>

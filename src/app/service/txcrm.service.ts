@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class TxcrmService {
 
-	
-	url = 'http://localhost:8080'
-	//url = 'http://ec2-3-85-164-60.compute-1.amazonaws.com:8080'
+	url = environment.url
 
 	constructor(
 		private http: HttpClient,
@@ -28,12 +27,12 @@ export class TxcrmService {
 	}
 	
 	countOrder(condition: Object) : Observable<any>{
-		var url: string = this.url + '/count';
+		var url: string = this.url + '/order/count';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 
-	createOrder(condition: Object) : Observable<any>{
-		var url: string = this.url + '/order/create';
+	saveOrder(condition: Object) : Observable<any>{
+		var url: string = this.url + '/order/save';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 	

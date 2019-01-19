@@ -2,7 +2,7 @@
 	<customer-input [order]="order" [default]="order.customer"></customer-input>
 	
 	<mat-form-field>
-		<input matInput [(ngModel)]="order.address" placeholder="Address">
+		<input matInput [(ngModel)]="order.shippingAddress" placeholder="Address">
 	</mat-form-field>
 
 	<table mat-table [dataSource]="order.orderItems" class="mat-elevation-z8" *ngIf="products.length > 0">
@@ -107,6 +107,20 @@
 		<tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 		<tr mat-footer-row *matFooterRowDef="footerColumns"></tr>
 	</table>
+
+	<section class="example-section mt-2">
+		<mat-slide-toggle
+			class="example-margin"
+			[color]="'primary'"
+			[(ngModel)]="order.invoiceStatusChecked"
+			[checked]="order.invoiceStatusChecked">
+		  Invoice Status
+		</mat-slide-toggle>
+	</section>
+	<mat-form-field class="example-full-width mt-2">
+		<textarea matInput placeholder="Note" [(ngModel)]="order.note"></textarea>
+	</mat-form-field>
+
 	<div class="add-task-footer">
 		<button mat-flat-button (click)="onNoClick()">Close</button>
 		<button mat-flat-button color="primary" (click)="save()">Save</button>

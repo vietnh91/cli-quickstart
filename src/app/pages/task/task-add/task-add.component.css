@@ -33,7 +33,7 @@ tr.mat-footer-row {
 	text-align: right
 }
 mat-form-field.mat-form-field{
-	font-size: 10pt;
+	font-size: 12pt;
 }
 .pl-8{
 	padding-left: 8px; 
@@ -51,4 +51,7 @@ mat-form-field.mat-form-field{
 }
 .w-85{
 	width: 120px;
+}
+.mt-2{
+  margin-top: 20px;
 }

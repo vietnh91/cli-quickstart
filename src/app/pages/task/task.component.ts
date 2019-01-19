@@ -21,10 +21,12 @@ export class TaskComponent implements OnInit {
 	
 	dataSource = []
 
-	length = 100;
-	pageSize = 10;
-	pageEvent: any
-	pageSizeOptions: number[] = [5, 10, 25, 100];
+	paging: any = {
+		length: 100,
+		size: 20,
+		page: 0,
+		options: [10, 20, 50, 100],
+	}
 
 	editing: boolean = false
 
@@ -39,13 +41,37 @@ export class TaskComponent implements OnInit {
 		});
 	
 		dialogRef.afterClosed().subscribe(result => {
-			console.log('The dialog was closed' + result);
-			//this.animal = result;
+			if(result == 'refesh'){
+				this.filter()
+			}
+		});
+	}
+
+	jsonCopy(src) {
+		return JSON.parse(JSON.stringify(src));
+	}
+
+	openUpdate(order){
+		const dialogRef = this.dialog.open(TaskAddComponent, {
+			height: '600px',
+			width: '1000px',
+			data: {
+				order: this.jsonCopy(order)
+			}
+		});
+	
+		dialogRef.afterClosed().subscribe(result => {
+			if(result == 'refesh'){
+				this.filter()
+			}
 		});
 	}
 
 	filter(){
-		this.service.filterOrder({}).subscribe( (res) => {
+		this.service.filterOrder({
+			size: this.paging.size,
+			page: this.paging.page,
+		}).subscribe( (res) => {
 			console.log(res)
 			this.dataSource = res.content
 			this.dataSource.forEach(order=>{
@@ -57,11 +83,21 @@ export class TaskComponent implements OnInit {
 		}, (error) => {
 			console.log(error);
 		})
+
+		this.service.countOrder({
+			//size: this.paging.size,
+			//page: this.paging.page,
+		}).subscribe( (res) => {
+			console.log(res)
+			this.paging.length = parseInt(res)
+		}, (error) => {
+			console.log(error);
+		})
 	}
 
-	edit(item){
-		console.log(item)
+	pageEvent($event){
+		console.log($event)
+		this.paging.page = $event.pageIndex
+		this.filter()
 	}
-
-
 }

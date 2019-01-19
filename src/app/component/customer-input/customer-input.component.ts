@@ -10,6 +10,7 @@ export class CustomerInputComponent implements OnInit {
 
 	focus = false
 	selected: any = {}
+	hasUpdate = false
 
 	@Input() order: any = {}
 	@Input() default: any = {}
@@ -25,6 +26,7 @@ export class CustomerInputComponent implements OnInit {
 
 		if(this.default && this.default.customerName){
 			this.selected = Object.assign({}, this.default)
+			this.hasUpdate = true
 		}
 
 	}
@@ -62,13 +64,16 @@ export class CustomerInputComponent implements OnInit {
 
 	focusout(){
 		this.focus = false
-		if(this.order.customer.customerId 
+		if(!this.hasUpdate
+			&& this.order.customer.customerId 
 			&& this.order.customer.customerId == this.selected.customerId 
 			&& this.order.customer.customerName != this.selected.customerName)
 			{
-				this.selected = {}
 				this.order.customer.customerId = null
 		}
+
+		this.order.customer.customerName = this.selected.customerName
+		
 		console.log(this.order.customer)
 	}
 

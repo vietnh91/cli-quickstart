@@ -19,6 +19,7 @@ export class TaskAddComponent implements OnInit {
 	order: any = {
 		customer: {},
 		orderItems: [],
+		invoiceStatusChecked: true,
 	}
 
 	index = 0
@@ -44,10 +45,19 @@ export class TaskAddComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
+		
+		if(this.data.order){
+			this.order = this.data.order
+			this.order.invoiceStatusChecked = this.order.invoiceStatus > 0
+			console.log(this.order)
+		}
+	
 		this.service.getProduct({}).subscribe((res)=>{
 			console.log(res)
 			this.products = res
-			this.addOrderItem()
+			if(!this.data.order){
+				this.addOrderItem()
+			}
 		}, (error) => {
 			console.log(error)
 		})
@@ -86,8 +96,15 @@ export class TaskAddComponent implements OnInit {
 
 	save(){
 		console.log(this.order)
-		this.service.createOrder(this.order).subscribe((res)=>{
+		if(this.order.invoiceStatusChecked){
+			this.order.invoiceStatus = 1
+		}else{
+			this.order.invoiceStatus = 0
+		}
+
+		this.service.saveOrder(this.order).subscribe((res)=>{
 			console.log(res)
+			this.dialogRef.close('refesh');
 		}, (error) => {
 			console.log(error)
 		})

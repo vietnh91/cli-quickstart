@@ -7,7 +7,7 @@ import { TaskComponent } from './task.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule, MatIconModule, MatDialogModule,
-	MatButtonModule, MatListModule, MatAutocompleteModule} from '@angular/material';
+	MatButtonModule, MatListModule, MatAutocompleteModule, MatSlideToggleModule} from '@angular/material';
 import {MatTableModule} from '@angular/material/table';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -54,6 +54,7 @@ const routes: Routes = [
 		MatButtonModule,
 		MatListModule,
 		MatAutocompleteModule,
+		MatSlideToggleModule,
 	],
 	entryComponents: [
 		TaskAddComponent,
