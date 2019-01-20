@@ -58,6 +58,9 @@ export class TaskComponent implements OnInit {
 		}).subscribe(res=>{
 			order.ships = res
 			order.newShip = {}
+			if(!order.ship){
+				order.ship = {}
+			}
 			
 			const dialogRef = this.dialog.open(TaskAddComponent, {
 				height: '600px',
