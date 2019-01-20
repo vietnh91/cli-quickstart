@@ -1,0 +1,1 @@
+cd ~/Documents/tx/cli-quickstart && ng serve --prod --host 0.0.0.0
