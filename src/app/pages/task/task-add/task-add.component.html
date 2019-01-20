@@ -109,10 +109,10 @@
 
 		<!-- net Column -->
 		<ng-container matColumnDef="netTotal">
-			<th mat-header-cell *matHeaderCellDef width="85px" class="text-number"> Net Item Total </th>
+			<th mat-header-cell *matHeaderCellDef width="85px" class="text-number">Net Item Total</th>
 			<td mat-cell *matCellDef="let orderItem" width="85px" class="text-number">
 				<span *ngIf="!invalid && orderItem.product">
-					<span *ngIf="orderItem.adjusted > 1 || orderItem.adjusted < 0">
+					<span *ngIf="orderItem.adjusted > 1 || orderItem.adjusted <= 0">
 						{{orderItem.product.price * orderItem.quantity - orderItem.adjusted}}
 					</span>
 					<span *ngIf="orderItem.adjusted < 1 && orderItem.adjusted > 0">
