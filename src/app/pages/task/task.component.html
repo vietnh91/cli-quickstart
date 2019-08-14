@@ -4,8 +4,6 @@
 <table class="mat-elevation-z8">
 	<thead>
 		<tr>
-			<th width="40px">No.
-			</th>
 			<th width="80px">Date</th>
 			<th width="160px">Customer Name</th>
 			<th width="320px">Shipping Address</th>
@@ -23,30 +21,29 @@
 	<tbody>
 		<ng-container *ngFor="let element of dataSource">
 			<tr>
-				<td width="40px" [attr.rowspan]="element.orderItems.length">{{element.position}}</td>
-				<td width="80px" [attr.rowspan]="element.orderItems.length">{{element.orderDate | date: 'yyyy-MM-dd'}}</td>
-				<td width="160px" [attr.rowspan]="element.orderItems.length">
-					<a class="link" (click)="openUpdate(element)">{{element.customer.customerName}}</a>
+				<td width="80px" [attr.rowspan]="element.items.length">{{element.orderDate}}</td>
+				<td width="160px" [attr.rowspan]="element.items.length">
+					<a class="link" (click)="openUpdate(element)">{{element.customerName}}</a>
 				</td>
-				<td width="320px" [attr.rowspan]="element.orderItems.length">{{element.ship ? element.ship.location : ''}}</td>
-				<td width="160px">{{element.orderItems[0].product.productName}}</td>
-				<td width="50px">{{element.orderItems[0].quantity}} {{element.orderItems[0].product.unit.catalogName}}</td>
-				<td width="50px" class="text-number">{{element.orderItems[0].product.price}}</td>
-				<td width="50px" class="text-number">{{element.orderItems[0].product.price * element.orderItems[0].quantity}}</td>
-				<td width="50px" class="text-number">{{element.orderItems[0].adjusted}}</td>
-				<td width="50px" class="text-number">{{element.orderItems[0].product.price * element.orderItems[0].quantity - element.orderItems[0].adjusted}}</td>
-				<td width="50px" [attr.rowspan]="element.orderItems.length" class="text-number">{{element.total}}</td>
-				<td width="50px" [attr.rowspan]="element.orderItems.length">{{element.invoiceStatus > 0 ? 'Done': ''}}</td>
-				<td [attr.rowspan]="element.orderItems.length">{{element.note}}</td>
+				<td width="320px" [attr.rowspan]="element.items.length">{{element.address}}</td>
+				<td width="160px">{{element.items[0].productName}}</td>
+				<td width="50px">{{element.items[0].quantity}} {{element.items[0].unitName}}</td>
+				<td width="50px" class="text-number">{{element.items[0].price}}</td>
+				<td width="50px" class="text-number">{{element.items[0].price * element.items[0].quantity}}</td>
+				<td width="50px" class="text-number">{{element.items[0].adjusted}}</td>
+				<td width="50px" class="text-number">{{element.items[0].price * element.items[0].quantity - element.items[0].adjusted}}</td>
+				<td width="50px" [attr.rowspan]="element.items.length" class="text-number">{{element.total}}</td>
+				<td width="50px" [attr.rowspan]="element.items.length">{{element.invoiceStatus > 0 ? 'Done': ''}}</td>
+				<td [attr.rowspan]="element.items.length">{{element.note}}</td>
 			</tr>
-			<ng-container *ngFor="let orderItem of element.orderItems; let i = index">
+			<ng-container *ngFor="let orderItem of element.items; let i = index">
 				<tr *ngIf="i > 0">
-					<td>{{orderItem.product.productName}}</td>
-					<td width="50px">{{orderItem.quantity}} {{orderItem.product.unit.catalogName}}</td>
-					<td width="50px" class="text-number">{{orderItem.product.price}}</td>
-					<td width="50px" class="text-number">{{orderItem.product.price * orderItem.quantity}}</td>
+					<td>{{orderItem.productName}}</td>
+					<td width="50px">{{orderItem.quantity}} {{orderItem.unitName}}</td>
+					<td width="50px" class="text-number">{{orderItem.price}}</td>
+					<td width="50px" class="text-number">{{orderItem.price * orderItem.quantity}}</td>
 					<td width="50px" class="text-number">{{orderItem.adjusted}}</td>
-					<td width="50px" class="text-number">{{orderItem.product.price * orderItem.quantity - orderItem.adjusted}}</td>
+					<td width="50px" class="text-number">{{orderItem.price * orderItem.quantity - orderItem.adjusted}}</td>
 				</tr>
 			</ng-container>
 		</ng-container>

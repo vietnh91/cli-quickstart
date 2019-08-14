@@ -18,7 +18,7 @@ export class TaskComponent implements OnInit {
 	ngOnInit() {
 		this.filter()
 	}
-	
+
 	dataSource = []
 
 	paging: any = {
@@ -30,7 +30,7 @@ export class TaskComponent implements OnInit {
 
 	editing: boolean = false
 
-	openAdd(){
+	openAdd() {
 		const dialogRef = this.dialog.open(TaskAddComponent, {
 			height: '600px',
 			width: '1000px',
@@ -39,9 +39,9 @@ export class TaskComponent implements OnInit {
 				//animal: this.animal
 			}
 		});
-	
+
 		dialogRef.afterClosed().subscribe(result => {
-			if(result == 'refesh'){
+			if (result == 'refesh') {
 				this.filter()
 			}
 		});
@@ -51,17 +51,17 @@ export class TaskComponent implements OnInit {
 		return JSON.parse(JSON.stringify(src));
 	}
 
-	openUpdate(order){
+	openUpdate(order) {
 
 		this.service.filterAddress({
 			customerId: order.customer.customerId,
-		}).subscribe(res=>{
+		}).subscribe(res => {
 			order.ships = res
 			order.newShip = {}
-			if(!order.ship){
+			if (!order.ship) {
 				order.ship = {}
 			}
-			
+
 			const dialogRef = this.dialog.open(TaskAddComponent, {
 				height: '600px',
 				width: '1000px',
@@ -69,32 +69,54 @@ export class TaskComponent implements OnInit {
 					order: this.jsonCopy(order)
 				}
 			});
-		
+
 			dialogRef.afterClosed().subscribe(result => {
-				if(result == 'refesh'){
+				if (result == 'refesh') {
 					this.filter()
 				}
 			});
-			
-		}, err=>{
+
+		}, err => {
 			console.log(err)
 		})
 
 	}
 
-	filter(){
+	filter() {
 		this.service.filterOrder({
 			size: this.paging.size,
 			page: this.paging.page,
-		}).subscribe( (res) => {
+		}).subscribe((res) => {
 			console.log(res)
-			this.dataSource = res.content
+			this.dataSource = []
+			let list = [];
+			let prevId = "";
+			let row: any = {};
+			res.forEach(item => {
+
+				if (!prevId || prevId != item.orderId) {
+					row = {};
+					row = Object.assign(item, {})
+					row.items = [
+						item
+					]
+					list.push(row)
+				}else{
+					row.items.push(item)
+				}
+				prevId = item.orderId
+			});
+
+			
+			console.log(list);
+			this.dataSource = list
 			this.dataSource.forEach(order=>{
 				order.total = 0
-				order.orderItems.forEach(item => {
-					order.total += item.product.price * item.quantity - item.adjusted
+				order.items.forEach(item => {
+					order.total += item.price * item.quantity - item.adjusted
 				});
 			})
+			
 		}, (error) => {
 			console.log(error);
 		})
@@ -102,15 +124,15 @@ export class TaskComponent implements OnInit {
 		this.service.countOrder({
 			//size: this.paging.size,
 			//page: this.paging.page,
-		}).subscribe( (res) => {
+		}).subscribe((res) => {
 			console.log(res)
-			this.paging.length = parseInt(res)
+			this.paging.length = parseInt(res.count)
 		}, (error) => {
 			console.log(error);
 		})
 	}
 
-	pageEvent($event){
+	pageEvent($event) {
 		console.log($event)
 		this.paging.page = $event.pageIndex
 		this.filter()

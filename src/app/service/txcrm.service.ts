@@ -22,32 +22,32 @@ export class TxcrmService {
 	}
 
 	filterOrder(condition: Object) : Observable<any>{
-		var url: string = this.url + '/order/filter';
+		var url: string = this.url + '/order/list.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 	
 	countOrder(condition: Object) : Observable<any>{
-		var url: string = this.url + '/order/count';
+		var url: string = this.url + '/order/count.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 
 	saveOrder(condition: Object) : Observable<any>{
-		var url: string = this.url + '/order/save';
+		var url: string = this.url + '/order/add.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 	
 	getProduct(condition: Object) : Observable<any>{
-		var url: string = this.url + '/product/filter';
+		var url: string = this.url + '/product/list.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 	
 	filterCustomer(condition: Object) : Observable<any>{
-		var url: string = this.url + '/customer/filter';
+		var url: string = this.url + '/customer/list.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 
 	filterAddress(condition: Object) : Observable<any>{
-		var url: string = this.url + '/address/filter';
+		var url: string = this.url + '/address/list.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 	
