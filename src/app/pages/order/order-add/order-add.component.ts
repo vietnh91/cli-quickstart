@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TxcrmService } from 'src/app/service/txcrm.service';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 
 @Component({
-	selector: 'app-task-add',
-	templateUrl: './task-add.component.html',
-	styleUrls: ['./task-add.component.css']
+	selector: 'app-order-add',
+	templateUrl: './order-add.component.html',
+	styleUrls: ['./order-add.component.css']
 })
-export class TaskAddComponent implements OnInit {
+export class OrderAddComponent implements OnInit {
 
 	options = []
 	focus = false
@@ -38,7 +38,8 @@ export class TaskAddComponent implements OnInit {
 	products = []
 
 	constructor(
-		public dialogRef: MatDialogRef<TaskAddComponent>,
+		public dialog: MatDialog,
+		public dialogRef: MatDialogRef<OrderAddComponent>,
 		@Inject(MAT_DIALOG_DATA) public data: any,
 		private service: TxcrmService,
 	) { }
@@ -142,6 +143,24 @@ export class TaskAddComponent implements OnInit {
 		}, (error) => {
 			console.log(error)
 		})
+	}
+
+	
+	openAddAddress() {
+		const dialogRef = this.dialog.open(OrderAddComponent, {
+			height: '800px',
+			width: '1000px',
+			data: {
+				//name: this.name,
+				//animal: this.animal
+			}
+		});
+
+		dialogRef.afterClosed().subscribe(result => {
+			if (result == 'refesh') {
+				
+			}
+		});
 	}
 
 }

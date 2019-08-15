@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { TxcrmService } from 'src/app/service/txcrm.service';
 import { MatDialog } from '@angular/material';
-import { TaskAddComponent } from './task-add/task-add.component';
+import { OrderAddComponent } from './order-add/order-add.component';
 
 @Component({
-	selector: 'app-task',
-	templateUrl: './task.component.html',
-	styleUrls: ['./task.component.css']
+	selector: 'app-Order',
+	templateUrl: './Order.component.html',
+	styleUrls: ['./Order.component.css']
 })
-export class TaskComponent implements OnInit {
+export class OrderComponent implements OnInit {
 
 	constructor(
 		public dialog: MatDialog,
@@ -31,8 +31,8 @@ export class TaskComponent implements OnInit {
 	editing: boolean = false
 
 	openAdd() {
-		const dialogRef = this.dialog.open(TaskAddComponent, {
-			height: '600px',
+		const dialogRef = this.dialog.open(OrderAddComponent, {
+			height: '800px',
 			width: '1000px',
 			data: {
 				//name: this.name,
@@ -62,8 +62,8 @@ export class TaskComponent implements OnInit {
 				order.ship = {}
 			}
 
-			const dialogRef = this.dialog.open(TaskAddComponent, {
-				height: '600px',
+			const dialogRef = this.dialog.open(OrderAddComponent, {
+				height: '800px',
 				width: '1000px',
 				data: {
 					order: this.jsonCopy(order)

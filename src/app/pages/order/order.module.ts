@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { TaskRoutingModule } from './task-routing.module';
-import { TaskComponent } from './task.component';
+import { OrderRoutingModule } from './order-routing.module';
+import { OrderComponent } from './order.component';
 
 import { MatNativeDateModule } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
@@ -15,7 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { Routes, RouterModule } from '@angular/router';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TaskAddComponent } from './task-add/task-add.component';
+import { OrderAddComponent } from './order-add/order-add.component';
 import { ClickOutsideDirective } from 'src/app/directive/clickoutside.directive';
 import { ProductInputComponent } from 'src/app/component/product-input/product-input.component';
 import { CustomerInputComponent } from 'src/app/component/customer-input/customer-input.component';
@@ -24,14 +24,14 @@ import { TxcrmService } from 'src/app/service/txcrm.service';
 const routes: Routes = [
 	{
 		path: '',
-		component: TaskComponent
+		component: OrderComponent
 	}
 ];
 
 @NgModule({
 	declarations: [
-		TaskComponent,
-		TaskAddComponent,
+		OrderComponent,
+		OrderAddComponent,
 		ClickOutsideDirective,
 		ProductInputComponent,
 		CustomerInputComponent,
@@ -40,7 +40,7 @@ const routes: Routes = [
 		RouterModule.forChild(routes),
 		CommonModule,
 		ReactiveFormsModule,
-		TaskRoutingModule,
+		OrderRoutingModule,
 		MatDatepickerModule,
 		MatFormFieldModule,
 		MatNativeDateModule,
@@ -58,7 +58,7 @@ const routes: Routes = [
 		MatCardModule,
 	],
 	entryComponents: [
-		TaskAddComponent,
+		OrderAddComponent,
 	],
 	providers: [
 		TxcrmService,
@@ -67,4 +67,4 @@ const routes: Routes = [
 		RouterModule,
 	],
 })
-export class TaskModule { }
+export class OrderModule { }

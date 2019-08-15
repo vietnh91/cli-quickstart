@@ -1,12 +1,12 @@
 <div class="autocomplete-selector" (clickOutside)="focusout()">
 	<mat-form-field>
-		<input matInput [id]="'autocomplete-selector-' + orderItem.index" [(ngModel)]="selected.productName"
+		<input matInput [id]="'autocomplete-selector-' + orderItem.index" [(ngModel)]="selected.name"
 			(keyup)="filter()" autocomplete="off">
 	</mat-form-field>
 
-	<ul *ngIf="focus && filteredOptions.length > 0">
+	<ul *ngIf="focus && filteredOptions.length > 0" style="width: 200px;">
 		<li *ngFor="let option of filteredOptions" (click)="select(option)">
-			<b>{{option.productCode}}</b> {{option.productName}}
+			<b>{{option.code}}</b> {{option.name}}
 		</li>
 	</ul>
 </div>

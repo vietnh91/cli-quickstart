@@ -68,3 +68,6 @@ mat-form-field.mat-form-field{
 .ship-ico{    
 	font-size: 14px;
 }
+.mat-card-header .mat-card-title {
+    font-size: 14px;
+}

@@ -3,8 +3,8 @@ import { RouterModule, Routes } from "@angular/router";
 
 const appRoutes: Routes = [
 	{
-	  path: 'task',
-	  loadChildren: './pages/task/task.module#TaskModule'
+	  path: 'order',
+	  loadChildren: './pages/order/order.module#OrderModule'
 	},
 	{
 	  path: '',

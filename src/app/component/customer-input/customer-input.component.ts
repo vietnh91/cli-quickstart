@@ -14,7 +14,7 @@ export class CustomerInputComponent implements OnInit {
 
 	@Input() order: any = {}
 	@Input() default: any = {}
-	
+
 	filteredOptions: any[]
 
 	constructor(
@@ -24,7 +24,7 @@ export class CustomerInputComponent implements OnInit {
 
 	ngOnInit() {
 
-		if(this.default && this.default.customerName){
+		if (this.default && this.default.name) {
 			this.selected = Object.assign({}, this.default)
 			this.hasUpdate = true
 		}
@@ -32,56 +32,59 @@ export class CustomerInputComponent implements OnInit {
 	}
 
 	filter() {
-		
-		if(!this.selected.customerName || this.selected.customerName.length < 2){
+
+		if (!this.selected.name || this.selected.name.length < 2) {
 			this.focus = false
 			this.filteredOptions = []
 			return
 		}
 
-		const filterValue = this.selected.customerName
+		const filterValue = this.selected.name
 
 		this.service.filterCustomer({
-			customerName: filterValue,
+			name: filterValue,
 			page: 0,
 			size: 10,
-		}).subscribe(res=>{
+		}).subscribe(res => {
 			this.filteredOptions = res
 			this.focus = true
 			console.log(this.filteredOptions)
 			console.log(this.focus)
-		}, err=>{
+		}, err => {
 			console.log(err)
 		})
-		
+
 	}
-	
-	select(option){
+
+	select(option) {
 		this.focus = false
 		this.selected = option
 		this.order.customer = Object.assign({}, this.selected)
 
+		console.log('this.selected', this.selected)
+
 		this.service.filterAddress({
 			customerId: this.selected.customerId,
-		}).subscribe(res=>{
+		}).subscribe(res => {
+
+			console.log('res', res)
 			this.order.ships = res
-		}, err=>{
+		}, err => {
 			console.log(err)
 		})
 	}
 
-	focusout(){
+	focusout() {
 		this.focus = false
-		if(!this.hasUpdate
-			&& this.order.customer.customerId 
-			&& this.order.customer.customerId == this.selected.customerId 
-			&& this.order.customer.customerName != this.selected.customerName)
-			{
-				this.order.customer.customerId = null
+		if (!this.hasUpdate
+			&& this.order.customer.customerId
+			&& this.order.customer.customerId == this.selected.customerId
+			&& this.order.customer.name != this.selected.name) {
+			this.order.customer.customerId = null
 		}
 
-		this.order.customer.customerName = this.selected.customerName
-		
+		this.order.customer.name = this.selected.name
+
 		console.log(this.order.customer)
 	}
 

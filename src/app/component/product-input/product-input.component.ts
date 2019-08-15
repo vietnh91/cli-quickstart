@@ -18,24 +18,24 @@ export class ProductInputComponent implements OnInit {
 
 	ngOnInit() {
 
-		if(this.default && this.default.productName){
+		if(this.default && this.default.name){
 			this.selected = Object.assign({}, this.default)
 		}
 
 		this.options.forEach(element => {
-			element.fullTextSearch = this.xoa_dau(element.productName) + this.xoa_dau(element.productCode)
+			element.fullTextSearch = this.xoa_dau(element.name) + this.xoa_dau(element.code)
 		});
 	}
 
 	filter() {
 		
-		if(!this.selected.productName || this.selected.productName.length < 2){
+		if(!this.selected.name || this.selected.name.length < 2){
 			this.focus = false
 			this.filteredOptions = []
 			return
 		}
 
-		const filterValue = this.xoa_dau(this.selected.productName);
+		const filterValue = this.xoa_dau(this.selected.name);
 
 		this.filteredOptions = this.options.filter(option => {
 			return option.fullTextSearch 
@@ -57,7 +57,7 @@ export class ProductInputComponent implements OnInit {
 		this.focus = false
 		if(this.orderItem.product 
 			&& this.orderItem.product.productId == this.selected.productId 
-			&& this.orderItem.product.productName != this.selected.productName)
+			&& this.orderItem.product.name != this.selected.name)
 			{
 				this.selected = {}
 				this.orderItem.invalid = true
