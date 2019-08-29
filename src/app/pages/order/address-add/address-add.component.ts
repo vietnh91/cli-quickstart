@@ -20,45 +20,31 @@ export class AddressAddComponent implements OnInit {
 		this.dialogRef.close();
 	}
 
+	address: any = {
+		customerId: 0,
+		name: ''
+	}
+
 	ngOnInit(): void {
 
-
+		if (this.data.customer && this.data.customer.customerId) {
+			this.address.customerId = this.data.customer.customerId
+		} else {
+			this.address.name = this.data.customer.name
+		}
 	}
 
 
 	save() {
-		// console.log(this.order)
-		// if(this.order.invoiceStatusChecked){
-		// 	this.order.invoiceStatus = 1
-		// }else{
-		// 	this.order.invoiceStatus = 0
-		// }
-		// if(!this.order.ship.addressId){
-		// 	this.order.ship = this.order.newShip
-		// }
 
-		// this.order.orderItems.forEach(element => {
-		// 	if(element.product && element.product.price){
-		// 		if(element.adjusted < 1 && element.adjusted > 0){
-
-		// 			if(this.order.note){
-		// 				this.order.note = this.order.note + ', adjusted ' + (element.adjusted * 100) + '%'
-		// 			}else{
-		// 				this.order.note = 'Adjusted ' + (element.adjusted * 100) + '%'
-		// 			}
-
-		// 			element.adjusted = element.adjusted * element.product.price * element.quantity
-
-		// 		}
-		// 	}
-		// });
-
-		// this.service.saveOrder(this.order).subscribe((res)=>{
-		// 	console.log(res)
-		// 	this.dialogRef.close('refesh');
-		// }, (error) => {
-		// 	console.log(error)
-		// })
+		this.service.saveAddress(this.address).subscribe((res) => {
+			console.log(res)
+			if (res) {
+				this.dialogRef.close(res);
+			}
+		}, (error) => {
+			console.log(error)
+		})
 	}
 
 

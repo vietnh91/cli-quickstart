@@ -34,7 +34,7 @@ export class OrderAddComponent implements OnInit {
 		adjusted: {
 			1: false
 		},
-	} 
+	}
 
 	products = []
 
@@ -50,17 +50,17 @@ export class OrderAddComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		
-		if(this.data.order){
+
+		if (this.data.order) {
 			this.order = this.data.order
 			this.order.invoiceStatusChecked = this.order.invoiceStatus > 0
 			console.log(this.order)
 		}
-	
-		this.service.getProduct({}).subscribe((res)=>{
+
+		this.service.getProduct({}).subscribe((res) => {
 			console.log(res)
 			this.products = res
-			if(!this.data.order){
+			if (!this.data.order) {
 				this.addOrderItem()
 			}
 		}, (error) => {
@@ -68,7 +68,7 @@ export class OrderAddComponent implements OnInit {
 		})
 	}
 
-	addOrderItem(){
+	addOrderItem() {
 		this.index++
 		this.order.orderItems = this.order.orderItems.concat([
 			{
@@ -83,7 +83,7 @@ export class OrderAddComponent implements OnInit {
 		console.log(this.order.orderItems)
 	}
 
-	removeOrderItem(orderItem){
+	removeOrderItem(orderItem) {
 		let i = this.order.orderItems.indexOf(orderItem)
 		this.order.orderItems.splice(i, 1)
 		this.order.orderItems = this.order.orderItems.concat([])
@@ -92,10 +92,10 @@ export class OrderAddComponent implements OnInit {
 	getNetTotal() {
 		let net = 0;
 		this.order.orderItems.forEach(element => {
-			if(element.product && element.product.price){
-				if(element.adjusted > 1 || element.adjusted < 0){
+			if (element.product && element.product.price) {
+				if (element.adjusted > 1 || element.adjusted < 0) {
 					net += element.product.price * element.quantity - element.adjusted
-				}else{
+				} else {
 					net += element.product.price * element.quantity * (1 - element.adjusted)
 				}
 			}
@@ -103,42 +103,42 @@ export class OrderAddComponent implements OnInit {
 		return net;
 	}
 
-	shipSelected(shipItem){
-		if(this.order.ship.addressId == shipItem.addressId){
+	shipSelected(shipItem) {
+		if (this.order.ship.addressId == shipItem.addressId) {
 			this.order.ship = {}
-		}else{
+		} else {
 			this.order.ship = shipItem
 		}
 	}
 
-	save(){
+	save() {
 		console.log(this.order)
-		if(this.order.invoiceStatusChecked){
+		if (this.order.invoiceStatusChecked) {
 			this.order.invoiceStatus = 1
-		}else{
+		} else {
 			this.order.invoiceStatus = 0
 		}
-		if(!this.order.ship.addressId){
+		if (!this.order.ship.addressId) {
 			this.order.ship = this.order.newShip
 		}
-		
-		this.order.orderItems.forEach(element => {
-			if(element.product && element.product.price){
-				if(element.adjusted < 1 && element.adjusted > 0){
 
-					if(this.order.note){
+		this.order.orderItems.forEach(element => {
+			if (element.product && element.product.price) {
+				if (element.adjusted < 1 && element.adjusted > 0) {
+
+					if (this.order.note) {
 						this.order.note = this.order.note + ', adjusted ' + (element.adjusted * 100) + '%'
-					}else{
+					} else {
 						this.order.note = 'Adjusted ' + (element.adjusted * 100) + '%'
 					}
 
 					element.adjusted = element.adjusted * element.product.price * element.quantity
-					
+
 				}
 			}
 		});
 
-		this.service.saveOrder(this.order).subscribe((res)=>{
+		this.service.saveOrder(this.order).subscribe((res) => {
 			console.log(res)
 			this.dialogRef.close('refesh');
 		}, (error) => {
@@ -146,20 +146,39 @@ export class OrderAddComponent implements OnInit {
 		})
 	}
 
-	
+
 	openAddAddress() {
+		if (!this.order.customer.name && !this.order.customer.customerId) {
+			alert('Không tìm thấy khách hàng')
+			return
+		}
 		const dialogRef = this.dialog.open(AddressAddComponent, {
 			height: '400px',
 			width: '1000px',
 			data: {
 				//name: this.name,
-				//animal: this.animal
+				customer: this.order.customer
 			}
 		});
 
 		dialogRef.afterClosed().subscribe(result => {
-			if (result == 'refesh') {
-				
+			if (result > 0) {
+				if (!this.order.customer.customerId) {
+					this.order.customer.customerId = result
+				}
+
+				this.service.filterAddress({
+					customerId: result
+				}).subscribe(res => {
+
+					console.log('filterAddress', res)
+					this.order.ships = res
+					if (this.order.ships.length > 0) {
+						this.order.ship = this.order.ships[this.order.ships.length - 1]
+					}
+				}, err => {
+					console.log(err)
+				})
 			}
 		});
 	}

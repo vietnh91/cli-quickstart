@@ -51,5 +51,10 @@ export class TxcrmService {
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}
 	
+	saveAddress(condition: Object) : Observable<any>{
+		var url: string = this.url + '/address/edit.php';
+		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
+	}
+	
 
 }

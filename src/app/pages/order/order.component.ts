@@ -4,9 +4,9 @@ import { MatDialog } from '@angular/material';
 import { OrderAddComponent } from './order-add/order-add.component';
 
 @Component({
-	selector: 'app-Order',
-	templateUrl: './Order.component.html',
-	styleUrls: ['./Order.component.css']
+	selector: 'app-order',
+	templateUrl: './order.component.html',
+	styleUrls: ['./order.component.css']
 })
 export class OrderComponent implements OnInit {
 

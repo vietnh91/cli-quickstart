@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TxcrmService } from 'src/app/service/txcrm.service';
 
 @Component({
@@ -15,6 +15,8 @@ export class CustomerInputComponent implements OnInit {
 
 	@Input() order: any = {}
 	@Input() default: any = {}
+
+	@Output() onSelect = new EventEmitter();
 
 	filteredOptions: any[]
 
@@ -70,6 +72,9 @@ export class CustomerInputComponent implements OnInit {
 
 			console.log('res', res)
 			this.order.ships = res
+			if (this.order.ships[0]) {
+				this.order.ship = this.order.ships[0]
+			}
 		}, err => {
 			console.log(err)
 		})
@@ -87,7 +92,7 @@ export class CustomerInputComponent implements OnInit {
 		this.order.customer.name = this.selected.name
 
 		console.log(this.order.customer)
-		if(!this.order.customer.customerId){
+		if (!this.order.customer.customerId) {
 			this.order.ships = []
 		}
 	}
