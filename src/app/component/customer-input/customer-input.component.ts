@@ -12,6 +12,7 @@ export class CustomerInputComponent implements OnInit {
 	selected: any = {}
 	hasUpdate = false
 
+
 	@Input() order: any = {}
 	@Input() default: any = {}
 
@@ -86,6 +87,9 @@ export class CustomerInputComponent implements OnInit {
 		this.order.customer.name = this.selected.name
 
 		console.log(this.order.customer)
+		if(!this.order.customer.customerId){
+			this.order.ships = []
+		}
 	}
 
 }

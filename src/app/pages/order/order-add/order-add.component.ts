@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { TxcrmService } from 'src/app/service/txcrm.service';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { AddressAddComponent } from '../address-add/address-add.component';
 
 @Component({
 	selector: 'app-order-add',
@@ -147,8 +148,8 @@ export class OrderAddComponent implements OnInit {
 
 	
 	openAddAddress() {
-		const dialogRef = this.dialog.open(OrderAddComponent, {
-			height: '800px',
+		const dialogRef = this.dialog.open(AddressAddComponent, {
+			height: '400px',
 			width: '1000px',
 			data: {
 				//name: this.name,

@@ -20,6 +20,7 @@ import { ClickOutsideDirective } from 'src/app/directive/clickoutside.directive'
 import { ProductInputComponent } from 'src/app/component/product-input/product-input.component';
 import { CustomerInputComponent } from 'src/app/component/customer-input/customer-input.component';
 import { TxcrmService } from 'src/app/service/txcrm.service';
+import { AddressAddComponent } from './address-add/address-add.component';
 
 const routes: Routes = [
 	{
@@ -32,6 +33,7 @@ const routes: Routes = [
 	declarations: [
 		OrderComponent,
 		OrderAddComponent,
+		AddressAddComponent,
 		ClickOutsideDirective,
 		ProductInputComponent,
 		CustomerInputComponent,
@@ -59,6 +61,7 @@ const routes: Routes = [
 	],
 	entryComponents: [
 		OrderAddComponent,
+		AddressAddComponent,
 	],
 	providers: [
 		TxcrmService,

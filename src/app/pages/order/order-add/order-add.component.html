@@ -17,7 +17,10 @@
 	</mat-card>
 </ng-container>
 
-<button mat-flat-button color="primary" (click)="save()">Add other Address</button>
+<button mat-flat-button color="primary" (click)="addAddress()">
+	<span *ngIf="order.ships.length > 0">Add other address</span>
+	<span *ngIf="!order.ships.length > 0">Add address</span>
+</button>
 
 <div [hidden]="order.ship.addressId">
 	<mat-form-field>
