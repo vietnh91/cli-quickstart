@@ -16,12 +16,13 @@ export class TxcrmService {
 		return {
 			headers: new HttpHeaders({
 				'Content-Type':  'application/json',
-				'Authorization': 'TXBEAR'
+				'Authorization': 'TXBEAR' + sessionStorage.getItem('Bear'),
 			})
 		};
 	}
 
 	filterOrder(condition: Object) : Observable<any>{
+		console.log('sessionStorage.getItem' ,sessionStorage.getItem('Bear'))
 		var url: string = this.url + '/order/list.php';
 		return this.http.post<any>(url, JSON.stringify(condition), this.getHttpOption());
 	}

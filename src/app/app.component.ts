@@ -6,16 +6,32 @@ import { RouterOutlet, Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
   title = 'My First Angular App!';
-  
-constructor(private router: Router) {}
+
+  authen = false;
+  token = '';
+  error: any = {}
+
+  constructor(private router: Router) { }
 
   getAnimationData(outlet: RouterOutlet) {
     return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
   }
 
-  navi(link){
+  navi(link) {
     this.router.navigate(['/' + link]);
+  }
+
+  login() {
+    console.log('token' + this.token)
+    if (this.token) {
+      this.router.navigate(['/order']);
+      this.authen = true;
+      sessionStorage.setItem('Bear', 'Bear ');
+    } else {
+      this.error.accessDenied = true
+    }
   }
 }

@@ -18,8 +18,15 @@ export class OrderAddComponent implements OnInit {
 	footerColumns: string[] = ['productName', 'productCode', 'quantity', 'price', 'itemTotal', 'adjusted', 'netTotal', 'action'];
 
 	order: any = {
-		customer: {},
-		ship: {},
+		customer: {
+			customerId: 0,
+			name: '',
+			address: ''
+		},
+		ship: {
+			address: '',
+			phone: ''
+		},
 		newShip: {},
 		ships: [],
 		orderItems: [],
@@ -112,7 +119,7 @@ export class OrderAddComponent implements OnInit {
 	}
 
 	save() {
-		console.log(this.order)
+		console.log('this.order.1', this.order)
 		if (this.order.invoiceStatusChecked) {
 			this.order.invoiceStatus = 1
 		} else {
@@ -135,8 +142,11 @@ export class OrderAddComponent implements OnInit {
 					element.adjusted = element.adjusted * element.product.price * element.quantity
 
 				}
+				element.productId = element.product.productId
 			}
 		});
+		
+		console.log('this.order', this.order)
 
 		this.service.saveOrder(this.order).subscribe((res) => {
 			console.log(res)

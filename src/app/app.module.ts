@@ -10,6 +10,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
 
 @NgModule({
 	declarations: [
@@ -21,6 +23,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 		AppRoutingModule,
 		MatToolbarModule,
 		MatMenuModule,
+		FormsModule,
+		MatFormFieldModule,
+		MatInputModule,
 		MatIconModule,
 		HttpClientModule,
 	],

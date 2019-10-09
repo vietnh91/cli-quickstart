@@ -1,11 +1,36 @@
-<mat-toolbar  color="primary">
+<mat-toolbar color="primary" *ngIf="authen">
     <mat-toolbar-row>
-        <a mat-button [matMenuTriggerFor]="menu">Tròn Xoe</a>
+        <span>MyApp</span>
+        <a mat-button [matMenuTriggerFor]="menu">
+            <mat-icon class="more_vert">more_vert</mat-icon>
+        </a>
         <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="navi('order')">Order</button>
             <button mat-menu-item>Product</button>
         </mat-menu>
+
+        <span class="example-spacer"></span>
+
+        <a mat-button class="example-icon" [matMenuTriggerFor]="menuRight">
+            <mat-icon class="more_vert">person_pin</mat-icon>
+        </a>
+        <mat-menu #menuRight="matMenu">
+            <button mat-menu-item (click)="navi('order')">Order</button>
+            <button mat-menu-item>Product</button>
+        </mat-menu>
+
     </mat-toolbar-row>
+
 </mat-toolbar>
+
+<div class="login-container" *ngIf="!authen">
+    <div class="login-vertical-center">
+        <mat-form-field>
+            <input type="text" class="login-token" matInput placeholder="Token" [(ngModel)]="token" maxlength="8" (keyup.enter)="login()">
+            <mat-hint align="start" *ngIf="error.accessDenied"><strong>Access Denied</strong> </mat-hint>
+            <mat-hint align="end">{{token.length}} / 8</mat-hint>
+        </mat-form-field>
+    </div>
+</div>
 
 <router-outlet></router-outlet>

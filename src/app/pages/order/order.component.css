@@ -11,10 +11,10 @@ tr {
 
 td,
 th {
-    border-bottom-width: 1px;
+    /* border-bottom-width: 1px;
     border-bottom-style: solid;
     border-left-width: 1px;
-    border-left-style: solid;
+    border-left-style: solid; */
     padding-left: 8px;
     padding-right: 8px;
     font-size: 9pt;
@@ -40,6 +40,6 @@ th {
 }
 
 .t-container {
-    padding: 0 80px;
+    padding: 0 8px;
     display: block;
 }

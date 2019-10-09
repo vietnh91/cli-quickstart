@@ -1,26 +1,33 @@
-<customer-input [order]="order" [default]="order.customer"></customer-input>
-<ng-container *ngFor="let shipItem of order.ships">
-    <mat-card [ngClass]="shipItem.addressId == order.ship.addressId ? 'ship-selected' : ''">
+<mat-form-field class="customer">
+    <input matInput [(ngModel)]="order.name" autocomplete="off" placeholder="Customer">
+    <button mat-button *ngIf="true" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+      <mat-icon>close</mat-icon>
+    </button>
+</mat-form-field>
 
-        <mat-card-header (click)="shipSelected(shipItem)">
-            <mat-card-title>
-                <mat-icon aria-label="how_to_reg" class="ship-ico">how_to_reg</mat-icon>{{shipItem.address}}
-            </mat-card-title>
-            <mat-card-subtitle>
-                <mat-icon aria-label="call" class="ship-ico">call</mat-icon>{{shipItem.phone}}
-            </mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-actions>
-            <button mat-button>Edit</button>
-            <button mat-button>Delete</button>
-        </mat-card-actions>
-    </mat-card>
-</ng-container>
+<mat-form-field *ngIf="order.ships && order.ships.length > 0">
+    <mat-label>Address</mat-label>
+    <mat-select [(value)]="order.ship.addressId">
+        <mat-option *ngFor="let s of order.ships" [value]="s.addressId">
+            {{s.address}} {{s.phone}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
 
-<button *ngIf="order.customer.name || order.customer.customerId" mat-flat-button color="primary" (click)="openAddAddress()">
-	<span *ngIf="order.ships.length > 0">Add other address</span>
-	<span *ngIf="!order.ships.length > 0">Add address</span>
-</button>
+<table *ngIf="!order.ships || order.ships.length < 1 || order.newShip.enable">
+    <tr>
+        <td width="50%">
+            <mat-form-field>
+                <input matInput [(ngModel)]="order.newShip.address" placeholder="Address">
+            </mat-form-field>
+        </td>
+        <td width="50%">
+            <mat-form-field>
+                <input matInput [(ngModel)]="order.newShip.phone" placeholder="Phone">
+            </mat-form-field>
+        </td>
+    </tr>
+</table>
 
 <table mat-table [dataSource]="order.orderItems" class="mat-elevation-z8" *ngIf="products.length > 0">
     <!-- Item Column -->
